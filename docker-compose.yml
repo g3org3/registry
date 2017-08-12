@@ -1,0 +1,16 @@
+version: '2'
+services:
+  auth-registry:
+    image: registry:2
+    ports:
+      - "5000:5000"
+    volumes:
+      - /etc/nginx/certs/:/certs
+      - /var/docker/registry/data:/var/lib/registry
+      - /var/docker/registry/auth:/auth
+    environment:
+      - REGISTRY_HTTP_TLS_CERTIFICATE=/certs/registry.jorgeadolfo.com.crt
+      - REGISTRY_HTTP_TLS_KEY=/certs/registry.jorgeadolfo.com.key
+      - REGISTRY_AUTH=htpasswd
+      - REGISTRY_AUTH_HTPASSWD_REALM=Registry Realm
+      - REGISTRY_AUTH_HTPASSWD_PATH=/auth/htpasswd
