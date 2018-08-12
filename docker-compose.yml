@@ -3,14 +3,18 @@ services:
   auth-registry:
     image: registry:2
     ports:
-      - "5000:5000"
+      - 5000:5000
     volumes:
-      - /etc/nginx/certs/:/certs
-      - /var/docker/registry/data:/var/lib/registry
-      - /var/docker/registry/auth:/auth
+      - /certs/:/certs
+      - /apps/registry/data:/var/lib/registry
+      - /apps/registry/auth:/auth
     environment:
-      - REGISTRY_HTTP_TLS_CERTIFICATE=/certs/registry.jorgeadolfo.com.crt
-      - REGISTRY_HTTP_TLS_KEY=/certs/registry.jorgeadolfo.com.key
+      - REGISTRY_HTTP_TLS_CERTIFICATE=/certs/registry.lb.jorgeadolfo.com.crt
+      - REGISTRY_HTTP_TLS_KEY=/certs/registry.lb.jorgeadolfo.com.key
       - REGISTRY_AUTH=htpasswd
       - REGISTRY_AUTH_HTPASSWD_REALM=Registry Realm
       - REGISTRY_AUTH_HTPASSWD_PATH=/auth/htpasswd
+      - VIRTUAL_PORT=5000
+      - VIRTUAL_HOST=registry.lb.jorgeadolfo.com
+      - LETSENCRYPT_HOST=registry.lb.jorgeadolfo.com
+      - LETSENCRYPT_EMAIL=7jagjag@gmail.com
